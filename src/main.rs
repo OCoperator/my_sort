@@ -1,14 +1,20 @@
 use std::io;
 use sort_algorithms::{
-    crumsort,
     crumsort_i32,
+    fluxsort_i32,
+    quadsort_i32,
     crumsort_u32,
+    fluxsort_u32,
+    quadsort_u32,
     crumsort_i64,
+    fluxsort_i64,
+    quadsort_i64,
     crumsort_u64,
+    fluxsort_u64,
+    quadsort_u64,
     crumsort_str,
-    crumsort_generic,
-    fluxsort,
-    SortArray,
+    fluxsort_str,
+    quadsort_str,
 };
 
 fn parse_i32_array(input: &str) -> Result<Vec<i32>, String> {
@@ -98,9 +104,89 @@ fn read_input(prompt: &str) -> String {
     input.trim().to_string()
 }
 
+fn run_sort_test_i32(arr: &[i32]) {
+    println!("原始数组: {:?}", arr);
+    
+    let mut arr1 = arr.to_vec();
+    crumsort_i32(&mut arr1);
+    println!("Crumsort: {:?}", arr1);
+    
+    let mut arr2 = arr.to_vec();
+    fluxsort_i32(&mut arr2);
+    println!("Fluxsort: {:?}", arr2);
+    
+    let mut arr3 = arr.to_vec();
+    quadsort_i32(&mut arr3);
+    println!("Quadsort: {:?}", arr3);
+}
+
+fn run_sort_test_u32(arr: &[u32]) {
+    println!("原始数组: {:?}", arr);
+    
+    let mut arr1 = arr.to_vec();
+    crumsort_u32(&mut arr1);
+    println!("Crumsort: {:?}", arr1);
+    
+    let mut arr2 = arr.to_vec();
+    fluxsort_u32(&mut arr2);
+    println!("Fluxsort: {:?}", arr2);
+    
+    let mut arr3 = arr.to_vec();
+    quadsort_u32(&mut arr3);
+    println!("Quadsort: {:?}", arr3);
+}
+
+fn run_sort_test_i64(arr: &[i64]) {
+    println!("原始数组: {:?}", arr);
+    
+    let mut arr1 = arr.to_vec();
+    crumsort_i64(&mut arr1);
+    println!("Crumsort: {:?}", arr1);
+    
+    let mut arr2 = arr.to_vec();
+    fluxsort_i64(&mut arr2);
+    println!("Fluxsort: {:?}", arr2);
+    
+    let mut arr3 = arr.to_vec();
+    quadsort_i64(&mut arr3);
+    println!("Quadsort: {:?}", arr3);
+}
+
+fn run_sort_test_u64(arr: &[u64]) {
+    println!("原始数组: {:?}", arr);
+    
+    let mut arr1 = arr.to_vec();
+    crumsort_u64(&mut arr1);
+    println!("Crumsort: {:?}", arr1);
+    
+    let mut arr2 = arr.to_vec();
+    fluxsort_u64(&mut arr2);
+    println!("Fluxsort: {:?}", arr2);
+    
+    let mut arr3 = arr.to_vec();
+    quadsort_u64(&mut arr3);
+    println!("Quadsort: {:?}", arr3);
+}
+
+fn run_sort_test_str(arr: &[String]) {
+    println!("原始数组: {:?}", arr);
+    
+    let mut arr1 = arr.to_vec();
+    crumsort_str(&mut arr1);
+    println!("Crumsort: {:?}", arr1);
+    
+    let mut arr2 = arr.to_vec();
+    fluxsort_str(&mut arr2);
+    println!("Fluxsort: {:?}", arr2);
+    
+    let mut arr3 = arr.to_vec();
+    quadsort_str(&mut arr3);
+    println!("Quadsort: {:?}", arr3);
+}
+
 fn main() {
     loop {
-        println!("\n=== CrumSort 排序算法演示 ===");
+        println!("\n=== 排序算法演示 ===");
         println!("支持的数据类型:");
         println!("1. i32 (32位有符号整数)");
         println!("2. u32 (32位无符号整数)");
@@ -118,67 +204,51 @@ fn main() {
         match choice {
             1 => {
                 let input = read_input("\n请输入 i32 数组（空格或逗号分隔）:");
-                let mut arr = match parse_i32_array(&input) {
+                let arr = match parse_i32_array(&input) {
                     Ok(a) => a,
                     Err(e) => {
                         println!("错误: {}", e);
                         continue;
                     }
                 };
-                println!("原始数组: {:?}", arr);
-                
-                let mut arr_copy = arr.clone();
-                crumsort_i32(&mut arr_copy);
-                println!("排序结果: {:?}", arr_copy);
+                run_sort_test_i32(&arr);
             }
             2 => {
                 let input = read_input("\n请输入 u32 数组（空格或逗号分隔）:");
-                let mut arr = match parse_u32_array(&input) {
+                let arr = match parse_u32_array(&input) {
                     Ok(a) => a,
                     Err(e) => {
                         println!("错误: {}", e);
                         continue;
                     }
                 };
-                println!("原始数组: {:?}", arr);
-                
-                let mut arr_copy = arr.clone();
-                crumsort_u32(&mut arr_copy);
-                println!("排序结果: {:?}", arr_copy);
+                run_sort_test_u32(&arr);
             }
             3 => {
                 let input = read_input("\n请输入 i64 数组（空格或逗号分隔）:");
-                let mut arr = match parse_i64_array(&input) {
+                let arr = match parse_i64_array(&input) {
                     Ok(a) => a,
                     Err(e) => {
                         println!("错误: {}", e);
                         continue;
                     }
                 };
-                println!("原始数组: {:?}", arr);
-                
-                let mut arr_copy = arr.clone();
-                crumsort_i64(&mut arr_copy);
-                println!("排序结果: {:?}", arr_copy);
+                run_sort_test_i64(&arr);
             }
             4 => {
                 let input = read_input("\n请输入 u64 数组（空格或逗号分隔）:");
-                let mut arr = match parse_u64_array(&input) {
+                let arr = match parse_u64_array(&input) {
                     Ok(a) => a,
                     Err(e) => {
                         println!("错误: {}", e);
                         continue;
                     }
                 };
-                println!("原始数组: {:?}", arr);
-                
-                let mut arr_copy = arr.clone();
-                crumsort_u64(&mut arr_copy);
-                println!("排序结果: {:?}", arr_copy);
+                run_sort_test_u64(&arr);
             }
             5 => {
                 let input = read_input("\n请输入字符串数组（空格或逗号分隔）:");
-                let mut arr: Vec<String> = input
+                let arr: Vec<String> = input
                     .split(|c: char| c.is_whitespace() || c == ',')
                     .filter(|s| !s.is_empty())
                     .map(|s| s.to_string())
@@ -187,11 +257,7 @@ fn main() {
                     println!("错误: 未检测到有效字符串");
                     continue;
                 }
-                println!("原始数组: {:?}", arr);
-                
-                let mut arr_copy = arr.clone();
-                crumsort_str(&mut arr_copy);
-                println!("排序结果: {:?}", arr_copy);
+                run_sort_test_str(&arr);
             }
             6 => {
                 println!("退出程序");
