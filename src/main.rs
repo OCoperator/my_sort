@@ -1,16 +1,16 @@
 use std::io;
 use sort_algorithms::{crumsort, fluxsort};
 
-fn parse_array_input(input: &str) -> Result<Vec<i32>, String> {
+fn parse_array_input(input: &str) -> Result<Vec<i128>, String> {
     let trimmed = input.trim();
     if trimmed.is_empty() {
         return Err("输入不能为空".to_string());
     }
     
-    let numbers: Result<Vec<i32>, _> = trimmed
+    let numbers: Result<Vec<i128>, _> = trimmed
         .split(|c: char| c.is_whitespace() || c == ',')
         .filter(|s| !s.is_empty())
-        .map(|s| s.parse::<i32>())
+        .map(|s| s.parse::<i128>())
         .collect();
     
     match numbers {
@@ -20,7 +20,7 @@ fn parse_array_input(input: &str) -> Result<Vec<i32>, String> {
     }
 }
 
-fn read_array() -> Vec<i32> {
+fn read_array() -> Vec<i128> {
     println!("请输入要排序的数组（数字之间用空格或逗号分隔）:");
     println!("例如: 9, 4, 7, 2, 5 或 9 4 7 2 5");
     println!();
