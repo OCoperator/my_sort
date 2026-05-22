@@ -1,17 +1,59 @@
 use std::io;
 use sort_algorithms::{crumsort, fluxsort};
 
-fn main() {
-    let arr = vec![9, 4, 7, 2, 5, 1, 8, 3, 6, 0, 15, 12, 18, 11, 13, 10, 17, 14, 16, 19];
+fn parse_array_input(input: &str) -> Result<Vec<i32>, String> {
+    let trimmed = input.trim();
+    if trimmed.is_empty() {
+        return Err("输入不能为空".to_string());
+    }
     
-    println!("初始数组: {:?}", arr);
+    let numbers: Result<Vec<i32>, _> = trimmed
+        .split(|c: char| c.is_whitespace() || c == ',')
+        .filter(|s| !s.is_empty())
+        .map(|s| s.parse::<i32>())
+        .collect();
+    
+    match numbers {
+        Ok(arr) if arr.is_empty() => Err("未检测到有效数字".to_string()),
+        Ok(arr) => Ok(arr),
+        Err(_) => Err("输入包含无效数字，请只输入整数".to_string()),
+    }
+}
+
+fn read_array() -> Vec<i32> {
+    println!("请输入要排序的数组（数字之间用空格或逗号分隔）:");
+    println!("例如: 9, 4, 7, 2, 5 或 9 4 7 2 5");
     println!();
     
     loop {
-        println!("请选择排序算法:");
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).expect("读取输入失败");
+        
+        match parse_array_input(&input) {
+            Ok(arr) => {
+                println!("成功读取 {} 个数字", arr.len());
+                return arr;
+            }
+            Err(e) => {
+                println!("错误: {}", e);
+                println!("请重新输入:");
+            }
+        }
+    }
+}
+
+fn main() {
+    let mut arr = read_array();
+    
+    loop {
+        println!();
+        println!("初始数组: {:?}", arr);
+        println!();
+        println!("请选择操作:");
         println!("1. crumsort");
         println!("2. fluxsort");
-        println!("3. 退出");
+        println!("3. 重新输入数组");
+        println!("4. 退出");
         
         let mut choice = String::new();
         io::stdin().read_line(&mut choice).expect("读取输入失败");
@@ -19,7 +61,7 @@ fn main() {
         let choice: usize = match choice.trim().parse() {
             Ok(n) => n,
             Err(_) => {
-                println!("无效输入，请输入数字1-3");
+                println!("无效输入，请输入数字1-4");
                 continue;
             }
         };
@@ -40,11 +82,14 @@ fn main() {
                 println!();
             }
             3 => {
+                arr = read_array();
+            }
+            4 => {
                 println!("退出程序");
                 break;
             }
             _ => {
-                println!("无效选择，请输入1-3");
+                println!("无效选择，请输入1-4");
             }
         }
     }
